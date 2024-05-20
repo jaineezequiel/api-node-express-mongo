@@ -25,8 +25,13 @@ class ProdutoController {
 
     static async cadastrarProduto (req, res) {
 
+        const novoProduto = req.body;
+
         try {
-            const novoProduto = await produto.create(req.body);
+
+            const categoria = await categoria.findById(novoProduto.categoria);
+            const produto = { ... novoProduto, categoria : { ... categoria._doc} };
+            const produtoCriado = await produto.create(produto);
             res.status(201).jsin({ message: "Produto cadastrado com sucesso", produto: novoProduto});
 
         } catch (erro) {
