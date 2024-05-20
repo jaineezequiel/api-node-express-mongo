@@ -6,6 +6,6 @@ const produtoSchema = new mongoose.Schema({
     preco: { type: Number}
 }, { versionKey: false });
 
-const livro = mongoose.model("produtos", produtoSchema);
+const produto = mongoose.model("produtos", produtoSchema);
 
 export default produto;

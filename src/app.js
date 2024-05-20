@@ -1,5 +1,6 @@
 import express from "express";
 import connectDatabase from "./config/dbConecct.js";
+import produto from "./models/produto.js";
 
 const conexao = await connectDatabase();
 
@@ -14,34 +15,19 @@ conexao.once("open", () => {
 const app = express();
 app.use(express.json());
 
-const produtos = [
-    {
-        id: 1,
-        name: "blusa 1234446666"
-    },
-    {
-        id: 2,
-        name: "calça"
-    }
-]
-
-function buscarProdutos(id){
-    return produtos.findIndex(produto => {
-        return produto.id === Number(id);
-    });
-}
 
 app.get("/", (req, res) => {
     res.status(200).send("API em Express");
 });
 
-app.get("/produtos", (req, res) => {
-    res.status(200).json(produtos);
+app.get("/produtos", async (req, res) => {
+    const listaProdutos = await produto.find({});
+    res.status(200).json(listaProdutos);
 });
 
-app.get('/produtos/:id', (req, res) => {
-    const index = buscarProdutos(req.params.id);
-    res.status(200).json(produtos[index]);
+app.get('/produtos/:id', async (req, res) => {    
+    const listaProduto = await produto.find({id: req.params.id});
+    res.status(200).json(listaProduto);
 });
 
 app.post("/produtos", (req, res) => {
