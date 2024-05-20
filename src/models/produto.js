@@ -1,4 +1,5 @@
 import mongoose from "mongoose";
+import { categoriaSchema } from "./categorias.js";
 
 const produtoSchema = new mongoose.Schema({
     id: { type: mongoose.Schema.Types.ObjectId },
